@@ -6,9 +6,10 @@ interface MovieRowProps {
   title: string;
   movies: Movie[];
   isLargeRow?: boolean;
+  onMovieClick?: (movie: Movie) => void;
 }
 
-const MovieRow: React.FC<MovieRowProps> = ({ title, movies, isLargeRow = false }) => {
+const MovieRow: React.FC<MovieRowProps> = ({ title, movies, isLargeRow = false, onMovieClick }) => {
   const rowRef = useRef<HTMLDivElement>(null);
   const [isMoved, setIsMoved] = useState(false);
 
@@ -45,6 +46,7 @@ const MovieRow: React.FC<MovieRowProps> = ({ title, movies, isLargeRow = false }
               src={isLargeRow ? movie.poster_path : movie.poster_path}
               alt={movie.title}
               loading="lazy"
+              onClick={() => onMovieClick && onMovieClick(movie)}
             />
           ))}
         </div>

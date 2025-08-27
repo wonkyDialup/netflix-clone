@@ -95,51 +95,35 @@ function App() {
 
       <div className="app__rows">
         {movies.netflixOriginals.length > 0 && (
-          <div onClick={() => handleMovieClick(movies.netflixOriginals[0])}>
-            <MovieRow title="NETFLIX ORIGINALS" movies={movies.netflixOriginals} isLargeRow />
-          </div>
+          <MovieRow title="NETFLIX ORIGINALS" movies={movies.netflixOriginals} isLargeRow onMovieClick={handleMovieClick} />
         )}
         
         {movies.trending.length > 0 && (
-          <div onClick={() => handleMovieClick(movies.trending[0])}>
-            <MovieRow title="Trending Now" movies={movies.trending} />
-          </div>
+          <MovieRow title="Trending Now" movies={movies.trending} onMovieClick={handleMovieClick} />
         )}
         
         {movies.topRated.length > 0 && (
-          <div onClick={() => handleMovieClick(movies.topRated[0])}>
-            <MovieRow title="Top Rated" movies={movies.topRated} />
-          </div>
+          <MovieRow title="Top Rated" movies={movies.topRated} onMovieClick={handleMovieClick} />
         )}
         
         {movies.actionMovies.length > 0 && (
-          <div onClick={() => handleMovieClick(movies.actionMovies[0])}>
-            <MovieRow title="Action Movies" movies={movies.actionMovies} />
-          </div>
+          <MovieRow title="Action Movies" movies={movies.actionMovies} onMovieClick={handleMovieClick} />
         )}
         
         {movies.comedyMovies.length > 0 && (
-          <div onClick={() => handleMovieClick(movies.comedyMovies[0])}>
-            <MovieRow title="Comedy Movies" movies={movies.comedyMovies} />
-          </div>
+          <MovieRow title="Comedy Movies" movies={movies.comedyMovies} onMovieClick={handleMovieClick} />
         )}
         
         {movies.horrorMovies.length > 0 && (
-          <div onClick={() => handleMovieClick(movies.horrorMovies[0])}>
-            <MovieRow title="Horror Movies" movies={movies.horrorMovies} />
-          </div>
+          <MovieRow title="Horror Movies" movies={movies.horrorMovies} onMovieClick={handleMovieClick} />
         )}
         
         {movies.romanceMovies.length > 0 && (
-          <div onClick={() => handleMovieClick(movies.romanceMovies[0])}>
-            <MovieRow title="Romance Movies" movies={movies.romanceMovies} />
-          </div>
+          <MovieRow title="Romance Movies" movies={movies.romanceMovies} onMovieClick={handleMovieClick} />
         )}
         
         {movies.documentaries.length > 0 && (
-          <div onClick={() => handleMovieClick(movies.documentaries[0])}>
-            <MovieRow title="Documentaries" movies={movies.documentaries} />
-          </div>
+          <MovieRow title="Documentaries" movies={movies.documentaries} onMovieClick={handleMovieClick} />
         )}
       </div>
 

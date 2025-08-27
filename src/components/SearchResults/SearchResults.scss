@@ -1,0 +1,48 @@
+.search-results {
+  min-height: 60vh;
+  padding: 100px 0 40px;
+  
+  &__content {
+    padding: 0 60px;
+    
+    @media (max-width: 768px) {
+      padding: 0 30px;
+    }
+  }
+  
+  &__title {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    
+    @media (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+  }
+  
+  &__no-results {
+    text-align: center;
+    color: #999;
+    margin-top: 60px;
+    
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      
+      &:first-child {
+        color: white;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+      
+      @media (max-width: 768px) {
+        font-size: 1rem;
+        
+        &:first-child {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}

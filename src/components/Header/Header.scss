@@ -41,6 +41,10 @@
     font-size: 14px;
     font-weight: 400;
     transition: color 0.4s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
 
     &:hover {
       color: #b3b3b3;
@@ -59,9 +63,18 @@
   }
 
   &__search {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+
+  &__search-button {
+    background: none;
+    border: none;
     color: white;
     cursor: pointer;
     transition: color 0.4s;
+    padding: 4px;
 
     &:hover {
       color: #b3b3b3;
@@ -70,6 +83,31 @@
     svg {
       width: 24px;
       height: 24px;
+    }
+  }
+
+  &__search-input {
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid #333;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    margin-right: 8px;
+    width: 250px;
+    transition: all 0.3s;
+
+    &:focus {
+      outline: none;
+      border-color: white;
+    }
+
+    &::placeholder {
+      color: #999;
+    }
+
+    @media (max-width: 768px) {
+      width: 200px;
     }
   }
 

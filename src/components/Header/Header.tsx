@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux';
+import { setCurrentSection, setSearchQuery, setSearchActive } from '../../store/slices/navigationSlice';
 import './Header.scss';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [searchInputValue, setSearchInputValue] = useState('');
+  const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.user);
+  const { currentSection, isSearchActive } = useAppSelector((state) => state.navigation);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +23,20 @@ const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleNavClick = (section: 'home' | 'tv-shows' | 'movies' | 'new-popular' | 'my-list') => {
+    dispatch(setCurrentSection(section));
+  };
+
+  const handleSearchClick = () => {
+    dispatch(setSearchActive(!isSearchActive));
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchInputValue(value);
+    dispatch(setSearchQuery(value));
+  };
+
   return (
     <header className={`header ${isScrolled ? 'header--scrolled' : ''}`}>
       <div className="header__left">
@@ -28,18 +46,55 @@ const Header: React.FC = () => {
           alt="Netflix"
         />
         <nav className="header__nav">
-          <a href="#home" className="header__nav-link header__nav-link--active">Home</a>
-          <a href="#tv-shows" className="header__nav-link">TV Shows</a>
-          <a href="#movies" className="header__nav-link">Movies</a>
-          <a href="#new-popular" className="header__nav-link">New & Popular</a>
-          <a href="#my-list" className="header__nav-link">My List</a>
+          <button 
+            onClick={() => handleNavClick('home')}
+            className={`header__nav-link ${currentSection === 'home' ? 'header__nav-link--active' : ''}`}
+          >
+            Home
+          </button>
+          <button 
+            onClick={() => handleNavClick('tv-shows')}
+            className={`header__nav-link ${currentSection === 'tv-shows' ? 'header__nav-link--active' : ''}`}
+          >
+            TV Shows
+          </button>
+          <button 
+            onClick={() => handleNavClick('movies')}
+            className={`header__nav-link ${currentSection === 'movies' ? 'header__nav-link--active' : ''}`}
+          >
+            Movies
+          </button>
+          <button 
+            onClick={() => handleNavClick('new-popular')}
+            className={`header__nav-link ${currentSection === 'new-popular' ? 'header__nav-link--active' : ''}`}
+          >
+            New & Popular
+          </button>
+          <button 
+            onClick={() => handleNavClick('my-list')}
+            className={`header__nav-link ${currentSection === 'my-list' ? 'header__nav-link--active' : ''}`}
+          >
+            My List
+          </button>
         </nav>
       </div>
       <div className="header__right">
         <div className="header__search">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fillRule="evenodd" clipRule="evenodd" d="M14.5776 16.5772C13.3123 17.4749 11.7275 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10C18 11.7275 17.4749 13.3123 16.5772 14.5776L21.7071 19.7071C22.0976 20.0976 22.0976 20.7308 21.7071 21.1213C21.3166 21.5118 20.6834 21.5118 20.2929 21.1213L15.1631 15.9915L14.5776 16.5772ZM16 10C16 13.3137 13.3137 16 10 16C6.68629 16 4 13.3137 4 10C4 6.68629 6.68629 4 10 4C13.3137 4 16 6.68629 16 10Z" fill="currentColor" />
-          </svg>
+          {isSearchActive && (
+            <input
+              type="text"
+              placeholder="Search movies..."
+              value={searchInputValue}
+              onChange={handleSearchChange}
+              className="header__search-input"
+              autoFocus
+            />
+          )}
+          <button onClick={handleSearchClick} className="header__search-button">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M14.5776 16.5772C13.3123 17.4749 11.7275 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10C18 11.7275 17.4749 13.3123 16.5772 14.5776L21.7071 19.7071C22.0976 20.0976 22.0976 20.7308 21.7071 21.1213C21.3166 21.5118 20.6834 21.5118 20.2929 21.1213L15.1631 15.9915L14.5776 16.5772ZM16 10C16 13.3137 13.3137 16 10 16C6.68629 16 4 13.3137 4 10C4 6.68629 6.68629 4 10 4C13.3137 4 16 6.68629 16 10Z" fill="currentColor" />
+            </svg>
+          </button>
         </div>
         <div className="header__profile">
           <img
