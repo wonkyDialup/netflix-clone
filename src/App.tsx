@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
-import { setMovies, setLoading } from './store/slices/moviesSlice';
+import { setMovies, setLoading, setSearchResults } from './store/slices/moviesSlice';
 import {
   fetchTrendingMovies,
   fetchNetflixOriginals,
@@ -9,19 +9,22 @@ import {
   fetchComedyMovies,
   fetchHorrorMovies,
   fetchRomanceMovies,
-  fetchDocumentaries
+  fetchDocumentaries,
+  searchMovies
 } from './services/api';
 import Header from './components/Header/Header';
 import HeroBanner from './components/HeroBanner/HeroBanner';
 import MovieRow from './components/MovieRow/MovieRow';
 import Footer from './components/Footer/Footer';
 import MovieModal from './components/MovieModal/MovieModal';
+import SearchResults from './components/SearchResults/SearchResults';
 import { Movie } from './store/slices/moviesSlice';
 import './App.scss';
 
 function App() {
   const dispatch = useAppDispatch();
   const movies = useAppSelector((state) => state.movies);
+  const navigation = useAppSelector((state) => state.navigation);
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
 
   useEffect(() => {
@@ -67,6 +70,21 @@ function App() {
     loadMovies();
   }, [dispatch]);
 
+  useEffect(() => {
+    const performSearch = async () => {
+      if (navigation.searchQuery.trim()) {
+        const results = await searchMovies(navigation.searchQuery);
+        dispatch(setSearchResults(results));
+      } else {
+        dispatch(setSearchResults([]));
+      }
+    };
+
+    if (navigation.isSearchActive) {
+      performSearch();
+    }
+  }, [navigation.searchQuery, navigation.isSearchActive, dispatch]);
+
   const handleMovieClick = (movie: Movie) => {
     setSelectedMovie(movie);
   };
@@ -85,47 +103,59 @@ function App() {
     );
   }
 
+  const shouldShowSearch = navigation.isSearchActive && navigation.searchQuery.trim();
+
   return (
     <div className="app">
       <Header />
       
-      {movies.netflixOriginals.length > 0 && (
-        <HeroBanner movie={movies.netflixOriginals[0]} />
-      )}
+      {shouldShowSearch ? (
+        <SearchResults 
+          searchQuery={navigation.searchQuery}
+          searchResults={movies.searchResults}
+          onMovieClick={handleMovieClick}
+        />
+      ) : (
+        <>
+          {movies.netflixOriginals.length > 0 && (
+            <HeroBanner movie={movies.netflixOriginals[0]} />
+          )}
 
-      <div className="app__rows">
-        {movies.netflixOriginals.length > 0 && (
-          <MovieRow title="NETFLIX ORIGINALS" movies={movies.netflixOriginals} isLargeRow onMovieClick={handleMovieClick} />
-        )}
-        
-        {movies.trending.length > 0 && (
-          <MovieRow title="Trending Now" movies={movies.trending} onMovieClick={handleMovieClick} />
-        )}
-        
-        {movies.topRated.length > 0 && (
-          <MovieRow title="Top Rated" movies={movies.topRated} onMovieClick={handleMovieClick} />
-        )}
-        
-        {movies.actionMovies.length > 0 && (
-          <MovieRow title="Action Movies" movies={movies.actionMovies} onMovieClick={handleMovieClick} />
-        )}
-        
-        {movies.comedyMovies.length > 0 && (
-          <MovieRow title="Comedy Movies" movies={movies.comedyMovies} onMovieClick={handleMovieClick} />
-        )}
-        
-        {movies.horrorMovies.length > 0 && (
-          <MovieRow title="Horror Movies" movies={movies.horrorMovies} onMovieClick={handleMovieClick} />
-        )}
-        
-        {movies.romanceMovies.length > 0 && (
-          <MovieRow title="Romance Movies" movies={movies.romanceMovies} onMovieClick={handleMovieClick} />
-        )}
-        
-        {movies.documentaries.length > 0 && (
-          <MovieRow title="Documentaries" movies={movies.documentaries} onMovieClick={handleMovieClick} />
-        )}
-      </div>
+          <div className="app__rows">
+            {movies.netflixOriginals.length > 0 && (
+              <MovieRow title="NETFLIX ORIGINALS" movies={movies.netflixOriginals} isLargeRow onMovieClick={handleMovieClick} />
+            )}
+            
+            {movies.trending.length > 0 && (
+              <MovieRow title="Trending Now" movies={movies.trending} onMovieClick={handleMovieClick} />
+            )}
+            
+            {movies.topRated.length > 0 && (
+              <MovieRow title="Top Rated" movies={movies.topRated} onMovieClick={handleMovieClick} />
+            )}
+            
+            {movies.actionMovies.length > 0 && (
+              <MovieRow title="Action Movies" movies={movies.actionMovies} onMovieClick={handleMovieClick} />
+            )}
+            
+            {movies.comedyMovies.length > 0 && (
+              <MovieRow title="Comedy Movies" movies={movies.comedyMovies} onMovieClick={handleMovieClick} />
+            )}
+            
+            {movies.horrorMovies.length > 0 && (
+              <MovieRow title="Horror Movies" movies={movies.horrorMovies} onMovieClick={handleMovieClick} />
+            )}
+            
+            {movies.romanceMovies.length > 0 && (
+              <MovieRow title="Romance Movies" movies={movies.romanceMovies} onMovieClick={handleMovieClick} />
+            )}
+            
+            {movies.documentaries.length > 0 && (
+              <MovieRow title="Documentaries" movies={movies.documentaries} onMovieClick={handleMovieClick} />
+            )}
+          </div>
+        </>
+      )}
 
       <Footer />
 
