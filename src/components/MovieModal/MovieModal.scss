@@ -1,0 +1,256 @@
+.movie-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+
+  &__content {
+    background: #181818;
+    border-radius: 6px;
+    width: 100%;
+    max-width: 850px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    color: white;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #2f2f2f;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: #555;
+      border-radius: 4px;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #181818;
+    border: none;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: #333;
+    }
+  }
+
+  &__hero {
+    position: relative;
+    height: 400px;
+    overflow: hidden;
+    border-radius: 6px 6px 0 0;
+
+    @media (max-width: 768px) {
+      height: 300px;
+    }
+  }
+
+  &__backdrop {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__hero-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 40px;
+
+    @media (max-width: 768px) {
+      padding: 20px;
+    }
+  }
+
+  &__title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    @media (max-width: 768px) {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+    @media (max-width: 480px) {
+      gap: 10px;
+    }
+  }
+
+  &__button {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--play {
+      background: white;
+      color: black;
+      padding: 12px 24px;
+      font-size: 1.1rem;
+      gap: 8px;
+
+      @media (max-width: 480px) {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      svg {
+        margin-left: -4px;
+      }
+    }
+
+    &--list,
+    &--like {
+      background: rgba(42, 42, 42, 0.6);
+      color: white;
+      width: 44px;
+      height: 44px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+
+      @media (max-width: 480px) {
+        width: 40px;
+        height: 40px;
+      }
+
+      &:hover {
+        background: rgba(42, 42, 42, 0.8);
+        border-color: white;
+      }
+    }
+  }
+
+  &__details {
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+
+    @media (max-width: 768px) {
+      padding: 20px;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+  }
+
+  &__metadata {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+
+    @media (max-width: 480px) {
+      gap: 8px;
+    }
+
+    span {
+      font-size: 0.9rem;
+      
+      &:not(:last-child):after {
+        content: '';
+        width: 4px;
+        height: 4px;
+        background: #808080;
+        border-radius: 50%;
+        display: inline-block;
+        margin-left: 12px;
+
+        @media (max-width: 480px) {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
+
+  &__rating {
+    color: #46d369;
+    font-weight: 700;
+  }
+
+  &__year,
+  &__seasons,
+  &__quality {
+    color: #ffffff;
+  }
+
+  &__age-rating {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    font-size: 0.8rem;
+    border-radius: 2px;
+  }
+
+  &__overview {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #d2d2d2;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+
+  &__cast {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  &__cast-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__cast-label {
+    color: #777;
+    font-size: 0.9rem;
+  }
+
+  &__cast-value {
+    color: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+}
